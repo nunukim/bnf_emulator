@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="./js/jquery.js"></script>
+    <script src="./js/main.js"></script>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+  </head>
+  <body>
+    <div id="main" class="container">
+      <div class="card" id="settings" style="margin-top: 16px;">
+        <form class="container">
+          <label for="preset-select">プリセット</label>
+          <div class="form-row">
+            <div class="col">
+              <select id="preset-select" class="form-control">
+                <option value="real-number" selected>実数</option>
+                <option value="arithmetric-operation">四則演算</option>
+                <option value="json">JSON</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="bnf">BNF</label>
+            <textarea id="bnf" class="form-control" rows="5">
+            </textarea>
+            <div class="invalid-feedback" id="error-bnf">&nbsp;</div>
+          </div>
+
+          <div class="form-group">
+            <button id="start-button" class="btn btn-primary">スタート</button>
+            <button id="reset-button" class="btn btn-danger">リセット</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card" id="main-control" style="margin-top: 16px;">
+        <div class="container" style="margin-top: 8px; margin-bottom: 8px;">
+          <form>
+            <div class="form-group">
+              <label>表示方法</label>
+              <div class="form-check form-check-inline">
+                <input type="radio" class="form-check-input" name="display-type" id="display-type-normal" value="normal" checked/>
+                <label class="form-check-label" for="display-type-normal">通常</label>
+              </div> 
+              <div class="form-check form-check-inline">
+                <input type="radio" class="form-check-input" name="display-type" id="display-type-history" value="history"/>
+                <label class="form-check-label" for="display-type-history">履歴</label>
+              </div> 
+            </div>
+          </form>
+
+          <div id="view"></div>
+        <div>
+      </div>
+    </div> <!-- #main -->
+
+    <div id="resource" style="display: none;">
+
+<pre id="bnf-preset-real-number">
+&lt;real&gt; ::= &lt;digits&gt; | &lt;digits&gt; '.' &lt;digits&gt;
+&lt;digits&gt; ::= &lt;digit&gt; &lt;digits&gt; | &lt;digit&gt;
+&lt;digit&gt; ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+</pre>
+
+<pre id="bnf-preset-arithmetric-operation">
+&lt;expr&gt; ::= &lt;term&gt; | &lt;term&gt; &lt;op&gt; &lt;expr&gt;
+&lt;term&gt; ::= '(' &lt;expr&gt; ')' | &lt;digits&gt;
+&lt;op&gt; ::= '+' | '-' | '*' | '/'
+&lt;digits&gt; ::= &lt;digit&gt; &lt;digits&gt; | &lt;digit&gt;
+&lt;digit&gt; ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+</pre>
+
+<pre id="bnf-preset-json">
+&lt;json&gt; ::= &lt;element&gt;
+&lt;value&gt; ::= &lt;object&gt; | &lt;array&gt; | &lt;string&gt; | &lt;number&gt; | 'true' | 'false' | 'null'
+
+&lt;object&gt; ::= '{' &lt;ws&gt; '}' | '{' &lt;members&gt; '}'
+&lt;members&gt; ::= &lt;member&gt; | &lt;member&gt; ',' &lt;members&gt;
+&lt;member&gt; ::= &lt;ws&gt; &lt;string&gt; &lt;ws&gt; ':' &lt;element&gt;
+
+&lt;array&gt; ::= '[' &lt;ws&gt; ']' | '[' &lt;elements&gt; ']'
+&lt;elements&gt; ::= &lt;element&gt; | &lt;element&gt; ',' &lt;elements&gt;
+&lt;element&gt; ::= &lt;ws&gt; &lt;value&gt; &lt;ws&gt;
+
+&lt;string&gt; ::= '"' &lt;characters&gt; '"'
+&lt;characters&gt; ::= '' | &lt;character&gt; &lt;characters&gt;
+
+&lt;character&gt; ::=
+  'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' |
+  'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' |
+  'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' |
+  'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' |
+  '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' |
+  ' ' | '!' | '#' | '$' | '%' | '&amp;' | '"' | '(' | ')' | '*' | '+' | ',' | '-' |
+  '.' | '/' | '[' | ']' | '^' | '_' | '`' | '{' | '|' | '}' | '~' | '\\' &lt;escape&gt;
+
+&lt;escape&gt; ::= '"' | '\\' | '/' | 'b' | 'f' | 'n' | 'r' | 't' | 'u' &lt;hex&gt; &lt;hex&gt; &lt;hex&gt; &lt;hex&gt;
+
+&lt;hex&gt; ::=
+  &lt;digit&gt; | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' 
+
+&lt;number&gt; ::= &lt;integer&gt; &lt;fraction&gt; &lt;exponent&gt;
+&lt;integer&gt; ::= &lt;digit&gt; | &lt;onenine&gt; &lt;digits&gt;
+  | '-' &lt;digit&gt; | '-' &lt;onenine&gt; &lt;digits&gt;
+&lt;digits&gt; ::= &lt;digit&gt; | &lt;digit&gt; &lt;digits&gt;
+&lt;digit&gt; ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+&lt;onenine&gt; ::= '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+&lt;fraction&gt; ::= '' | '.' &lt;digits&gt;
+&lt;exponent&gt; ::= '' | 'E' &lt;sign&gt; &lt;digits&gt; | 'e' &lt;sign&gt; &lt;digits&gt;
+&lt;sign&gt; ::= '' | '+' | '-'
+
+&lt;ws&gt; ::= '' | ' ' &lt;ws&gt;
+</pre>
+    </div>
+  </body>
+</html>
+
