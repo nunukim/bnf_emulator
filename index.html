@@ -16,6 +16,7 @@
                 <option value="real-number" selected>実数</option>
                 <option value="arithmetric-operation">四則演算</option>
                 <option value="json">JSON</option>
+                <option value="bnf">BNF</option>
               </select>
             </div>
           </div>
@@ -91,8 +92,8 @@
   'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' |
   'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' |
   '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' |
-  ' ' | '!' | '#' | '$' | '%' | '&amp;' | '"' | '(' | ')' | '*' | '+' | ',' | '-' |
-  '.' | '/' | '[' | ']' | '^' | '_' | '`' | '{' | '|' | '}' | '~' | '\\' &lt;escape&gt;
+  ' ' | '!' | '#' | '$' | '%' | '&amp;' | '(' | ')' | '*' | '+' | ',' | '-' | '.' |
+  '/' | '[' | ']' | '^' | '_' | '`' | '{' | '|' | '}' | '~'  | '\'' | '\\' &lt;escape&gt;
 
 &lt;escape&gt; ::= '"' | '\\' | '/' | 'b' | 'f' | 'n' | 'r' | 't' | 'u' &lt;hex&gt; &lt;hex&gt; &lt;hex&gt; &lt;hex&gt;
 
@@ -108,6 +109,39 @@
 &lt;fraction&gt; ::= '' | '.' &lt;digits&gt;
 &lt;exponent&gt; ::= '' | 'E' &lt;sign&gt; &lt;digits&gt; | 'e' &lt;sign&gt; &lt;digits&gt;
 &lt;sign&gt; ::= '' | '+' | '-'
+
+&lt;ws&gt; ::= '' | ' ' &lt;ws&gt;
+</pre>
+<pre id="bnf-preset-bnf">
+&lt;BNF&gt; ::= &lt;rules&gt;
+&lt;rules&gt; ::= &lt;rule&gt; | &lt;rule&gt; &lt;ws&gt; &lt;rules&gt;
+&lt;rule&gt; ::= &lt;nonterminal&gt; '::=' &lt;options&gt;
+&lt;options&gt; ::= &lt;list&gt; | &lt;list&gt; '|' &lt;options&gt;
+
+&lt;list&gt; ::= &lt;symbol&gt; | &lt;symbol&gt; &lt;list&gt;
+&lt;symbol&gt; ::= &lt;nonterminal&gt; | &lt;terminal&gt;
+
+&lt;nonterminal&gt; ::= '&lt;' &lt;word&gt; '&gt;'
+&lt;terminal&gt; ::= '\'' &lt;text&gt; '\''
+
+&lt;word&gt; ::= &lt;word-char&gt; | &lt;word-char&gt; &lt;word&gt;
+&lt;word-char&gt; ::=
+  'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' |
+  'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' |
+  'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' |
+  'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' |
+  '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '-' | '_'
+
+&lt;text&gt; ::= '' | &lt;char&gt; &lt;text&gt;
+&lt;char&gt; ::=
+  'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' |
+  'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' |
+  'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' |
+  'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' |
+  '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' |
+  ' ' | '!' | '#' | '$' | '%' | '&amp;' | '"' | '(' | ')' | '*' | '+' | ',' | '-' |
+  '.' | '/' | '[' | ']' | '^' | '_' | '`' | '{' | '|' | '}' | '~' | '\\' &lt;escape&gt;
+&lt;escape&gt; ::= '\'' | '\\'
 
 &lt;ws&gt; ::= '' | ' ' &lt;ws&gt;
 </pre>
